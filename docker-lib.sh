@@ -82,7 +82,6 @@ start_docker() {
   dockerd --data-root /scratch/docker ${server_args} >$LOG_FILE 2>&1 &
   echo $! > /tmp/docker.pid
 
-  trap stop_docker EXIT
 
   sleep 1
 
@@ -90,15 +89,6 @@ start_docker() {
     echo waiting for docker to come up...
     sleep 1
   done
-}
-
-stop_docker() {
-  local pid=$(cat /tmp/docker.pid)
-  if [ -z "$pid" ]; then
-    return 0
-  fi
-
-  kill -TERM $pid
 }
 
 log_in() {
